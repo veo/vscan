@@ -124,9 +124,12 @@ func (r *Runner) AddTarget(target string) error {
 	} else {
 		if strings.HasPrefix(target, "http://") || strings.HasPrefix(target, "https://") {
 			if u, err := url.Parse(target); err == nil {
+				if strings.Count(target, "/") > 3 {
+					Naabubuffer.Write([]byte(target[:strings.LastIndex(target, "/")+1] + "\n"))
+				}
 				Naabubuffer.Write([]byte(fmt.Sprintf("%s\n", fmt.Sprintf("%s://%s", u.Scheme, u.Host))))
-				return nil
 			}
+			return nil
 		}
 		ips, err := r.resolveFQDN(target)
 		if err != nil {

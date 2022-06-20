@@ -126,7 +126,9 @@ func HttpRequset(urlstring string, method string, postdata string, isredirect bo
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+	if headers["Content-Type"] == "" && headers["Content-type"] == "" {
+		req.Header.Set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+	}
 	req.Header.Set("User-Agent", uarand.GetRandom())
 	for v, k := range headers {
 		req.Header[v] = []string{k}
