@@ -44,13 +44,29 @@ func GoPocLog(log string) {
 	}
 }
 
-func YmlPocLog(log string) {
+func XrayPocLog(log string) {
 	builder := &strings.Builder{}
 	builder.WriteString("[")
 	if !NoColor {
-		builder.WriteString(aurora.BrightRed("YmlPOC").String())
+		builder.WriteString(aurora.BrightRed("XrayPOC").String())
 	} else {
-		builder.WriteString("YmlPOC")
+		builder.WriteString("XrayPOC")
+	}
+	builder.WriteString("] ")
+	builder.WriteString(log)
+	fmt.Print(builder.String())
+	if Output != "" {
+		writeoutput(builder.String())
+	}
+}
+
+func NucleiLog(log string) {
+	builder := &strings.Builder{}
+	builder.WriteString("[")
+	if !NoColor {
+		builder.WriteString(aurora.BrightRed("NucleiPOC").String())
+	} else {
+		builder.WriteString("NucleiPOC")
 	}
 	builder.WriteString("] ")
 	builder.WriteString(log)

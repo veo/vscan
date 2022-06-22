@@ -61,7 +61,7 @@ func addfingerprintsnormal(payload string, technologies []string, req *pkg.Respo
 				technologies = append(technologies, "AdminLoginPage")
 				username, password, loginurl := Admin_brute(req.RequestUrl)
 				if loginurl != "" {
-					technologies = append(technologies, fmt.Sprintf("brute-admin|%s:%s", username, password))
+					technologies = append(technologies, fmt.Sprintf("Brute_admin|%s:%s", username, password))
 				}
 			}
 		}

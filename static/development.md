@@ -31,7 +31,7 @@ case "Apache Tomcat":
 ## yml文件添加POC：
 1.在 ./pkg/fingerprint/localFingerData.go 内检查或添加指纹
 
-2.参考 xrayV2 yml 的编写方式编写放至 ./pocs_yml/ymlFiles/ 下，文件名需以指纹名开头加- (如thinkphp-cvexxxxxxxxx-aaa.yml)
+2.参考 xrayV2 yml 的编写方式编写放至 ./pocs_yml/xrayFiles/ 下，文件名需以指纹名开头加- (如thinkphp-cvexxxxxxxxx-aaa.yml)
 
 ## 后台弱口令扫描，中间件弱口令扫描 字典
 
@@ -39,7 +39,7 @@ case "Apache Tomcat":
 
 如：
 
-`http://127.0.0.1:8080 [302,200] [登录 - 后台] [exp-shiro|key:Z3VucwAAAAAAAAAAAAAAAA==,Java,LoginPage,brute-admin|admin:123456] [http://127.0.0.1:8080/login]`
+`http://127.0.0.1:8080 [302,200] [登录 - 后台] [exp-shiro|key:Z3VucwAAAAAAAAAAAAAAAA==,Java,LoginPage,Brute_admin|admin:123456] [http://127.0.0.1:8080/login]`
 
 包含弱口令检测板块
 1. 没有使用验证码，没有使用vue等前端框架的后台智能弱口令检测

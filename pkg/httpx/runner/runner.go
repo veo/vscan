@@ -1243,7 +1243,7 @@ retry:
 			return slice
 		}
 		if brute.CheckLoginPage(finalURL) {
-			technologies = append(technologies, "LoginPage")
+			technologies = append(technologies, "登录页面")
 		}
 		technologies = SliceRemoveDuplicates(technologies) // 指纹去重
 		if !scanopts.NoPOC {
@@ -1279,12 +1279,27 @@ retry:
 				}
 				return nn
 			}
+			sliceToLower := func(slice []string) []string {
+				data := make(map[string]struct{}, len(slice))
+				for _, item := range slice {
+					if _, ok := data[item]; !ok {
+						data[item] = struct{}{}
+					}
+				}
+				finalSlice := make([]string, 0, len(data))
+				for item := range data {
+					finalSlice = append(finalSlice, strings.ToLower(item))
+				}
+				return finalSlice
+			}
 			poctechnologies1 = pocs_go.POCcheck(technologies, ul, finalURL, false) // //通过wFingerprint获取到的指纹进行检测gopoc check
 			Vullist = append(Vullist, poctechnologies1...)
 			for _, technology := range technologies {
-				pocYmlList1 := pocs_yml.Check(ul, scanopts.CeyeApi, scanopts.CeyeDomain, r.options.HTTPProxy, strings.ToLower(technology)) // 通过wFingerprint获取到的指纹进行ymlpoc check
+				pocYmlList1 := pocs_yml.XrayCheck(ul, scanopts.CeyeApi, scanopts.CeyeDomain, r.options.HTTPProxy, strings.ToLower(technology)) // 通过wFingerprint获取到的指纹进行ymlpoc check
 				Vullist = append(Vullist, pocYmlList1...)
 			}
+			pocNuclei1 := pocs_yml.NucleiCheck(ul, scanopts.CeyeApi, scanopts.CeyeDomain, r.options.HTTPProxy, sliceToLower(technologies))
+			Vullist = append(Vullist, pocNuclei1...)
 			filePaths, filefuzzTechnologies = brute.FileFuzz(ul, resp.StatusCode, resp.ContentLength, resp.Raw) // 敏感文件扫描
 			filefuzzTechnologies = SliceRemoveDuplicates(filefuzzTechnologies)
 			filefuzzTechnologies = difference(filefuzzTechnologies, technologies) // 取差集合
@@ -1292,9 +1307,11 @@ retry:
 			poctechnologies2 = pocs_go.POCcheck(filefuzzTechnologies, ul, finalURL, true) //通过敏感文件扫描获取到的指纹进行检测gopoc check
 			Vullist = append(Vullist, poctechnologies2...)
 			for _, technology := range filefuzzTechnologies {
-				pocYmlList2 := pocs_yml.Check(ul, scanopts.CeyeApi, scanopts.CeyeDomain, r.options.HTTPProxy, strings.ToLower(technology)) //通过敏感文件扫描获取到的指纹进行检测ymlpoc check
+				pocYmlList2 := pocs_yml.XrayCheck(ul, scanopts.CeyeApi, scanopts.CeyeDomain, r.options.HTTPProxy, strings.ToLower(technology)) //通过敏感文件扫描获取到的指纹进行检测ymlpoc check
 				Vullist = append(Vullist, pocYmlList2...)
 			}
+			pocNuclei2 := pocs_yml.NucleiCheck(ul, scanopts.CeyeApi, scanopts.CeyeDomain, r.options.HTTPProxy, sliceToLower(filefuzzTechnologies))
+			Vullist = append(Vullist, pocNuclei2...)
 			technologies = append(technologies, filefuzzTechnologies...) // 输出加入敏感文件扫描 获取到的指纹
 			technologies = SliceRemoveDuplicates(technologies)           // 指纹去重
 		}

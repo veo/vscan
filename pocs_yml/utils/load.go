@@ -20,7 +20,7 @@ func LoadMultiPoc(Pocs embed.FS, pocname string) []*structs.Poc {
 
 func loadPoc(fileName string, Pocs embed.FS) (*structs.Poc, error) {
 	p := &structs.Poc{}
-	yamlFile, err := Pocs.ReadFile("ymlFiles/" + fileName)
+	yamlFile, err := Pocs.ReadFile("xrayFiles/" + fileName)
 
 	if err != nil {
 		return nil, err
@@ -33,7 +33,7 @@ func loadPoc(fileName string, Pocs embed.FS) (*structs.Poc, error) {
 }
 
 func SelectPoc(Pocs embed.FS, pocname string) []string {
-	entries, err := Pocs.ReadDir("ymlFiles")
+	entries, err := Pocs.ReadDir("xrayFiles")
 	if err != nil {
 		fmt.Println(err)
 	}

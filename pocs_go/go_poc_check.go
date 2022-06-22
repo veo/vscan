@@ -33,23 +33,23 @@ func POCcheck(wappalyzertechnologies []string, URL string, finalURL string, chec
 		case "Shiro":
 			key := shiro.CVE_2016_4437(finalURL)
 			if key != "" {
-				technologies = append(technologies, fmt.Sprintf("exp-Shiro|key:%s", key))
+				technologies = append(technologies, fmt.Sprintf("GoPOC_Shiro|key:%s", key))
 			}
 		case "Apache Tomcat":
 			username, password := brute.Tomcat_brute(URL)
 			if username != "" {
-				technologies = append(technologies, fmt.Sprintf("brute-Tomcat|%s:%s", username, password))
+				technologies = append(technologies, fmt.Sprintf("Brute_Tomcat|%s:%s", username, password))
 			}
 			if tomcat.CVE_2020_1938(HOST) {
-				technologies = append(technologies, "exp-Tomcat|CVE_2020_1938")
+				technologies = append(technologies, "GoPOC_Tomcat|CVE_2020_1938")
 			}
 			if tomcat.CVE_2017_12615(URL) {
-				technologies = append(technologies, "exp-Tomcat|CVE_2017_12615")
+				technologies = append(technologies, "GoPOC_Tomcat|CVE_2017_12615")
 			}
 		case "Basic":
 			username, password := brute.Basic_brute(URL)
 			if username != "" {
-				technologies = append(technologies, fmt.Sprintf("brute-basic|%s:%s", username, password))
+				technologies = append(technologies, fmt.Sprintf("Brute_basic|%s:%s", username, password))
 			}
 		case "Weblogic", "WebLogic":
 			username, password := brute.Weblogic_brute(URL)
@@ -57,156 +57,156 @@ func POCcheck(wappalyzertechnologies []string, URL string, finalURL string, chec
 				if username == "login_page" {
 					technologies = append(technologies, "Weblogic_login_page")
 				} else {
-					technologies = append(technologies, fmt.Sprintf("brute-Weblogic|%s:%s", username, password))
+					technologies = append(technologies, fmt.Sprintf("Brute_Weblogic|%s:%s", username, password))
 				}
 			}
 			if weblogic.CVE_2014_4210(URL) {
-				technologies = append(technologies, "exp-Weblogic|CVE_2014_4210")
+				technologies = append(technologies, "GoPOC_Weblogic|CVE_2014_4210")
 			}
 			if weblogic.CVE_2017_3506(URL) {
-				technologies = append(technologies, "exp-Weblogic|CVE_2017_3506")
+				technologies = append(technologies, "GoPOC_Weblogic|CVE_2017_3506")
 			}
 			if weblogic.CVE_2017_10271(URL) {
-				technologies = append(technologies, "exp-Weblogic|CVE_2017_10271")
+				technologies = append(technologies, "GoPOC_Weblogic|CVE_2017_10271")
 			}
 			if weblogic.CVE_2018_2894(URL) {
-				technologies = append(technologies, "exp-Weblogic|CVE_2018_2894")
+				technologies = append(technologies, "GoPOC_Weblogic|CVE_2018_2894")
 			}
 			if weblogic.CVE_2019_2725(URL) {
-				technologies = append(technologies, "exp-Weblogic|CVE_2019_2725")
+				technologies = append(technologies, "GoPOC_Weblogic|CVE_2019_2725")
 			}
 			if weblogic.CVE_2019_2729(URL) {
-				technologies = append(technologies, "exp-Weblogic|CVE_2019_2729")
+				technologies = append(technologies, "GoPOC_Weblogic|CVE_2019_2729")
 			}
 			if weblogic.CVE_2020_2883(URL) {
-				technologies = append(technologies, "exp-Weblogic|CVE_2020_2883")
+				technologies = append(technologies, "GoPOC_Weblogic|CVE_2020_2883")
 			}
 			if weblogic.CVE_2020_14882(URL) {
-				technologies = append(technologies, "exp-Weblogic|CVE_2020_14882")
+				technologies = append(technologies, "GoPOC_Weblogic|CVE_2020_14882")
 			}
 			if weblogic.CVE_2020_14883(URL) {
-				technologies = append(technologies, "exp-Weblogic|CVE_2020_14883")
+				technologies = append(technologies, "GoPOC_Weblogic|CVE_2020_14883")
 			}
 			if weblogic.CVE_2021_2109(URL) {
-				technologies = append(technologies, "exp-Weblogic|CVE_2021_2109")
+				technologies = append(technologies, "GoPOC_Weblogic|CVE_2021_2109")
 			}
 		case "JBoss", "JBoss Application Server 7", "jboss", "jboss-as", "jboss-eap", "JBoss Web", "JBoss Application Server":
 			if jboss.CVE_2017_12149(URL) {
-				technologies = append(technologies, "exp-jboss|CVE_2017_12149")
+				technologies = append(technologies, "GoPOC_jboss|CVE_2017_12149")
 			}
 			username, password := brute.Jboss_brute(URL)
 			if username != "" {
-				technologies = append(technologies, fmt.Sprintf("brute-jboss|%s:%s", username, password))
+				technologies = append(technologies, fmt.Sprintf("Brute_jboss|%s:%s", username, password))
 			}
 		case "JSON":
 			fastjsonRceType := fastjson.Check(URL, finalURL)
 			if fastjsonRceType != "" {
-				technologies = append(technologies, fmt.Sprintf("exp-FastJson|%s", fastjsonRceType))
+				technologies = append(technologies, fmt.Sprintf("GoPOC_FastJson|%s", fastjsonRceType))
 			}
 		case "Jenkins", "jenkins":
 			if jenkins.Unauthorized(URL) {
-				technologies = append(technologies, "exp-jenkins|Unauthorized script")
+				technologies = append(technologies, "GoPOC_jenkins|Unauthorized script")
 			}
 			if jenkins.CVE_2018_1000110(URL) {
-				technologies = append(technologies, "exp-jenkins|CVE_2018_1000110")
+				technologies = append(technologies, "GoPOC_jenkins|CVE_2018_1000110")
 			}
 			if jenkins.CVE_2018_1000861(URL) {
-				technologies = append(technologies, "exp-jenkins|CVE_2018_1000861")
+				technologies = append(technologies, "GoPOC_jenkins|CVE_2018_1000861")
 			}
 			if jenkins.CVE_2019_10003000(URL) {
-				technologies = append(technologies, "exp-jenkins|CVE_2019_10003000")
+				technologies = append(technologies, "GoPOC_jenkins|CVE_2019_10003000")
 			}
 		case "ThinkPHP", "thinkphp":
 			if ThinkPHP.RCE(URL) {
-				technologies = append(technologies, "exp-ThinkPHP")
+				technologies = append(technologies, "GoPOC_ThinkPHP")
 			}
 		case "phpunit":
 			if phpunit.CVE_2017_9841(URL) {
-				technologies = append(technologies, "exp-phpunit|CVE_2017_9841")
+				technologies = append(technologies, "GoPOC_phpunit|CVE_2017_9841")
 			}
 		case "seeyon":
 			if seeyon.SeeyonFastjson(URL) {
-				technologies = append(technologies, "exp-seeyon|SeeyonFastjson")
+				technologies = append(technologies, "GoPOC_seeyon|SeeyonFastjson")
 			}
 			if seeyon.SessionUpload(URL) {
-				technologies = append(technologies, "exp-seeyon|SessionUpload")
+				technologies = append(technologies, "GoPOC_seeyon|SessionUpload")
 			}
 			if seeyon.CNVD_2019_19299(URL) {
-				technologies = append(technologies, "exp-seeyon|CNVD_2019_19299")
+				technologies = append(technologies, "GoPOC_seeyon|CNVD_2019_19299")
 			}
 			if seeyon.CNVD_2020_62422(URL) {
-				technologies = append(technologies, "exp-seeyon|CNVD_2020_62422")
+				technologies = append(technologies, "GoPOC_seeyon|CNVD_2020_62422")
 			}
 			if seeyon.CNVD_2021_01627(URL) {
-				technologies = append(technologies, "exp-seeyon|CNVD_2021_01627")
+				technologies = append(technologies, "GoPOC_seeyon|CNVD_2021_01627")
 			}
 			if seeyon.CreateMysql(URL) {
-				technologies = append(technologies, "exp-seeyon|CreateMysql")
+				technologies = append(technologies, "GoPOC_seeyon|CreateMysql")
 			}
 			if seeyon.DownExcelBeanServlet(URL) {
-				technologies = append(technologies, "exp-seeyon|DownExcelBeanServlet")
+				technologies = append(technologies, "GoPOC_seeyon|DownExcelBeanServlet")
 			}
 			if seeyon.GetSessionList(URL) {
-				technologies = append(technologies, "exp-seeyon|GetSessionList")
+				technologies = append(technologies, "GoPOC_seeyon|GetSessionList")
 			}
 			if seeyon.InitDataAssess(URL) {
-				technologies = append(technologies, "exp-seeyon|InitDataAssess")
+				technologies = append(technologies, "GoPOC_seeyon|InitDataAssess")
 			}
 			if seeyon.ManagementStatus(URL) {
-				technologies = append(technologies, "exp-seeyon|ManagementStatus")
+				technologies = append(technologies, "GoPOC_seeyon|ManagementStatus")
 			}
 			if seeyon.BackdoorScan(URL) {
-				technologies = append(technologies, "exp-seeyon|Backdoor")
+				technologies = append(technologies, "GoPOC_seeyon|Backdoor")
 			}
-		case "LoginPage":
+		case "登录页面":
 			username, password, loginurl := brute.Admin_brute(finalURL)
 			if loginurl != "" {
-				technologies = append(technologies, fmt.Sprintf("brute-admin|%s:%s", username, password))
+				technologies = append(technologies, fmt.Sprintf("Brute_admin|%s:%s", username, password))
 			}
 		case "Sunlogin":
 			if sunlogin.SunloginRCE(URL) {
-				technologies = append(technologies, "exp-Sunlogin|RCE")
+				technologies = append(technologies, "GoPOC_Sunlogin|RCE")
 			}
 		case "ZabbixSAML":
 			if zabbix.CVE_2022_23131(URL) {
-				technologies = append(technologies, "exp-ZabbixSAML|bypass-login")
+				technologies = append(technologies, "GoPOC_ZabbixSAML|bypass-login")
 			}
 		case "Spring", "Spring env", "spring-boot", "spring-framework", "spring-boot-admin":
 			if Springboot.CVE_2022_22965(finalURL) {
-				technologies = append(technologies, "exp-Spring4Shell|CVE_2022_22965")
+				technologies = append(technologies, "GoPOC_Spring4Shell|CVE_2022_22965")
 			}
 		case "SpringGateway":
 			if Springboot.CVE_2022_22947(URL) {
-				technologies = append(technologies, "exp-SpringGateway|CVE_2022_22947")
+				technologies = append(technologies, "GoPOC_SpringGateway|CVE_2022_22947")
 			}
 		case "GitLab":
 			if gitlab.CVE_2021_22205(URL) {
-				technologies = append(technologies, "exp-gitlab|CVE_2021_22205")
+				technologies = append(technologies, "GoPOC_gitlab|CVE_2021_22205")
 			}
 		case "Confluence":
 			if confluence.CVE_2021_26084(URL) {
-				technologies = append(technologies, "exp-confluence|CVE_2021_26084")
+				technologies = append(technologies, "GoPOC_confluence|CVE_2021_26084")
 			}
 			if confluence.CVE_2021_26085(URL) {
-				technologies = append(technologies, "exp-confluence|CVE_2021_26085")
+				technologies = append(technologies, "GoPOC_confluence|CVE_2021_26085")
 			}
 			if confluence.CVE_2022_26134(URL) {
-				technologies = append(technologies, "exp-confluence|CVE_2022_26134")
+				technologies = append(technologies, "GoPOC_confluence|CVE_2022_26134")
 			}
 		case "f5 Big IP":
 			if f5.CVE_2020_5902(URL) {
-				technologies = append(technologies, "exp-f5-Big-IP|CVE_2020_5902")
+				technologies = append(technologies, "GoPOC_f5-Big-IP|CVE_2020_5902")
 			}
 			if f5.CVE_2021_22986(URL) {
-				technologies = append(technologies, "exp-f5-Big-IP|CVE_2021_22986")
+				technologies = append(technologies, "GoPOC_f5-Big-IP|CVE_2021_22986")
 			}
 			if f5.CVE_2022_1388(URL) {
-				technologies = append(technologies, "exp-f5-Big-IP|CVE_2022_1388")
+				technologies = append(technologies, "GoPOC_f5-Big-IP|CVE_2022_1388")
 			}
 		}
 		if checklog4j {
 			if log4j.Check(URL, finalURL) {
-				technologies = append(technologies, "exp-log4j|JNDI RCE")
+				technologies = append(technologies, "GoPOC_log4j|JNDI RCE")
 			}
 		}
 	}
