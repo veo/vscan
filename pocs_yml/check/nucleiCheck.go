@@ -1,19 +1,21 @@
 package check
 
 import (
+	"embed"
 	"fmt"
 	"github.com/projectdiscovery/gologger"
 	"github.com/projectdiscovery/nuclei/v2/pkg/catalog/loader/filter"
-	"github.com/projectdiscovery/nuclei/v2/pkg/templates"
 	"github.com/projectdiscovery/nuclei/v2/pkg/templates/types"
 	"github.com/veo/vscan/pkg"
 	"github.com/veo/vscan/pocs_yml/pkg/nuclei/parse"
+	"github.com/veo/vscan/pocs_yml/pkg/nuclei/templates"
+	"sync"
 )
 
-func LoadTemplatesWithTags(templatesList, tags []string) []*templates.Template {
+func LoadTemplatesWithTags(templatesList, tags []string, ExcludeTags []string, Pocs embed.FS) []*templates.Template {
 	tagFilter := filter.New(&filter.Config{
 		Tags:        []string{},
-		ExcludeTags: []string{"apache", "java", "php"},
+		ExcludeTags: ExcludeTags,
 		Authors:     []string{},
 		IncludeTags: []string{},
 		IncludeIds:  []string{},
@@ -28,12 +30,12 @@ func LoadTemplatesWithTags(templatesList, tags []string) []*templates.Template {
 
 	loadedTemplates := make([]*templates.Template, 0, len(templatePathMap))
 	for templatePath := range templatePathMap {
-		loaded, err := parse.LoadTemplate(templatePath, tagFilter, tags)
+		loaded, err := parse.LoadTemplate(templatePath, tagFilter, tags, Pocs)
 		if err != nil {
 			gologger.Warning().Msgf("Could not load template %s: %s\n", templatePath, err)
 		}
 		if loaded {
-			poc, err := parse.ParsePoc(templatePath)
+			poc, err := parse.ParsePoc(templatePath, Pocs)
 			if err != nil {
 				gologger.Warning().Msgf("Could not parse template %s: %s\n", templatePath, err)
 				return nil
@@ -60,12 +62,18 @@ func execute(template *templates.Template, URL string) bool {
 }
 
 func NucleiStart(target string, template []*templates.Template) []string {
+	var WaitGroup sync.WaitGroup
 	var Vullist []string
 	for _, t := range template {
-		if execute(t, target) {
-			pkg.NucleiLog(fmt.Sprintf("%s (%s)\n", target, t.ID))
-			Vullist = append(Vullist, "NucleiPOC_"+t.ID)
-		}
+		WaitGroup.Add(1)
+		go func(t *templates.Template) {
+			if execute(t, target) {
+				pkg.NucleiLog(fmt.Sprintf("%s (%s)\n", target, t.ID))
+				Vullist = append(Vullist, "NucleiPOC_"+t.ID)
+			}
+			WaitGroup.Done()
+		}(t)
 	}
+	WaitGroup.Wait()
 	return Vullist
 }

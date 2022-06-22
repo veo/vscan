@@ -1,12 +1,14 @@
 package parse
 
 import (
+	"embed"
 	"errors"
 	"github.com/projectdiscovery/gologger"
 	"github.com/projectdiscovery/nuclei/v2/pkg/catalog"
 	"github.com/projectdiscovery/nuclei/v2/pkg/protocols"
 	"github.com/projectdiscovery/nuclei/v2/pkg/protocols/common/protocolinit"
-	"github.com/projectdiscovery/nuclei/v2/pkg/templates"
+	"github.com/veo/vscan/pocs_yml/pkg/nuclei/templates"
+
 	"github.com/projectdiscovery/nuclei/v2/pkg/types"
 	"github.com/veo/vscan/pocs_yml/pkg/nuclei/structs"
 
@@ -47,9 +49,9 @@ func InitExecuterOptions(rate int, timeout int) {
 
 }
 
-func ParsePoc(filename string) (*templates.Template, error) {
+func ParsePoc(filename string, Pocs embed.FS) (*templates.Template, error) {
 	var err error
-	poc, err := templates.Parse(filename, nil, ExecuterOptions)
+	poc, err := templates.Parse(filename, nil, ExecuterOptions, Pocs)
 	if err != nil {
 		return nil, err
 	}

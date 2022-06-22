@@ -1,6 +1,7 @@
 package parse
 
 import (
+	"embed"
 	"fmt"
 	"regexp"
 	"strings"
@@ -23,8 +24,8 @@ const (
 )
 
 // LoadTemplate returns true if the template is valid and matches the filtering criteria.
-func LoadTemplate(templatePath string, tagFilter *filter.TagFilter, extraTags []string) (bool, error) {
-	template, templateParseError := ParseTemplate(templatePath)
+func LoadTemplate(templatePath string, tagFilter *filter.TagFilter, extraTags []string, Pocs embed.FS) (bool, error) {
+	template, templateParseError := ParseTemplate(templatePath, Pocs)
 	if templateParseError != nil {
 		return false, templateParseError
 	}
@@ -41,23 +42,6 @@ func LoadTemplate(templatePath string, tagFilter *filter.TagFilter, extraTags []
 	templateId := strings.ToLower(template.ID)
 
 	return isTemplateInfoMetadataMatch(tagFilter, &template.Info, extraTags, template.Type(), templateId)
-}
-
-// LoadWorkflow returns true if the workflow is valid and matches the filtering criteria.
-func LoadWorkflow(templatePath string) (bool, error) {
-	template, templateParseError := ParseTemplate(templatePath)
-	if templateParseError != nil {
-		return false, templateParseError
-	}
-
-	if len(template.Workflows) > 0 {
-		if validationError := validateTemplateFields(template); validationError != nil {
-			return false, validationError
-		}
-		return true, nil
-	}
-
-	return false, nil
 }
 
 func isTemplateInfoMetadataMatch(tagFilter *filter.TagFilter, templateInfo *model.Info, extraTags []string, templateType types.ProtocolType, templateId string) (bool, error) {
@@ -123,11 +107,12 @@ func init() {
 }
 
 // ParseTemplate parses a template and returns a *templates.Template structure
-func ParseTemplate(templatePath string) (*templates.Template, error) {
+func ParseTemplate(templatePath string, Pocs embed.FS) (*templates.Template, error) {
 	if value, err := parsedTemplatesCache.Has(templatePath); value != nil {
 		return value.(*templates.Template), err
 	}
-	data, err := utils.ReadFromPathOrURL(templatePath)
+	//data, err := utils.ReadFromPathOrURL(templatePath)
+	data, err := Pocs.ReadFile(templatePath)
 	if err != nil {
 		return nil, err
 	}

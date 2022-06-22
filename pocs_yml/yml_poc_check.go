@@ -39,10 +39,11 @@ func XrayCheck(target string, ceyeapi string, ceyedomain string, proxy string, p
 
 func NucleiCheck(target string, ceyeapi string, ceyedomain string, proxy string, Tags []string) []string {
 	parse.InitExecuterOptions(100, 5)
-	list, err := catalog.New("").GetTemplatePath("./nuclei-templates")
+	list, err := catalog.New("").GetTemplatePath(NucleiPocs)
 	if err != nil {
 		gologger.Error().Msgf("Could not find template: %s\n", err)
 	}
-	templatesList := check.LoadTemplatesWithTags(list, Tags)
+	ExcludeTags := []string{"apache", "java", "php"}
+	templatesList := check.LoadTemplatesWithTags(list, Tags, ExcludeTags, NucleiPocs)
 	return check.NucleiStart(target, templatesList)
 }
