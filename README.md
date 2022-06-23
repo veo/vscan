@@ -32,6 +32,8 @@
 - 快速的POC检测功能
 - 快速的敏感文件检测功能
 - 轻量、开源、跨平台使用
+- 支持指纹 650(eHole) + 3129(Local) + 3053(wappalyzergo) = 6832 条
+- 支持 Xray 和 Nuclei 的 POC 检测
 - 支持多种类型的输入 - **STDIN/HOST/IP/CIDR/URL/TXT**
 - 支持多种类型的输出 - **JSON/TXT/CSV/STDOUT**
 
