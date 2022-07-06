@@ -82,10 +82,13 @@ require (
 	github.com/RumbleDiscovery/jarm-go v0.0.6
 	github.com/ammario/ipisp/v2 v2.0.0
 	github.com/dlclark/regexp2 v1.4.0
+	github.com/go-playground/validator/v10 v10.11.0
 	github.com/google/cel-go v0.11.4
 	github.com/mfonda/simhash v0.0.0-20151007195837-79f94a1100d6
 	github.com/projectdiscovery/nuclei/v2 v2.7.3
 	github.com/satori/go.uuid v1.2.0
+	github.com/segmentio/ksuid v1.0.4
+	go.uber.org/multierr v1.8.0
 	google.golang.org/genproto v0.0.0-20220602131408-e326c6e8e9c8
 	google.golang.org/protobuf v1.28.0
 )
@@ -113,7 +116,6 @@ require (
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
-	github.com/go-playground/validator/v10 v10.11.0 // indirect
 	github.com/go-rod/rod v0.107.1 // indirect
 	github.com/goburrow/cache v0.1.4 // indirect
 	github.com/gobwas/httphead v0.1.0 // indirect
@@ -155,7 +157,6 @@ require (
 	github.com/projectdiscovery/reflectutil v0.0.0-20210804085554-4d90952bf92f // indirect
 	github.com/projectdiscovery/yamldoc-go v1.0.3-0.20211126104922-00d2c6bb43b6 // indirect
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
-	github.com/segmentio/ksuid v1.0.4 // indirect
 	github.com/shirou/gopsutil/v3 v3.22.5 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/stoewer/go-strcase v1.2.0 // indirect
@@ -175,7 +176,6 @@ require (
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
 	github.com/zmap/rc2 v0.0.0-20131011165748-24b9757f5521 // indirect
 	github.com/zmap/zcrypto v0.0.0-20211005224000-2d0ffdec8a9b // indirect
-	go.uber.org/multierr v1.8.0 // indirect
 	go.uber.org/zap v1.21.0 // indirect
 	goftp.io/server/v2 v2.0.0 // indirect
 	golang.org/x/crypto v0.0.0-20220210151621-f4118a5b28e2 // indirect

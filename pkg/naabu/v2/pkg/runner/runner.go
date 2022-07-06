@@ -519,7 +519,7 @@ func (r *Runner) handleOutput() {
 	// In case the user has given an output file, write all the found
 	// ports to the output file.
 	if r.options.Output != "" {
-		output = r.options.Output
+		output = "port." + r.options.Output
 
 		// create path if not existing
 		outputFolder := filepath.Dir(output)
