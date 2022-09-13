@@ -2,6 +2,8 @@ package pocs_go
 
 import (
 	"fmt"
+	"net/url"
+
 	"github.com/veo/vscan/brute"
 	"github.com/veo/vscan/pocs_go/Springboot"
 	"github.com/veo/vscan/pocs_go/ThinkPHP"
@@ -11,15 +13,17 @@ import (
 	"github.com/veo/vscan/pocs_go/gitlab"
 	"github.com/veo/vscan/pocs_go/jboss"
 	"github.com/veo/vscan/pocs_go/jenkins"
+	"github.com/veo/vscan/pocs_go/landray"
 	"github.com/veo/vscan/pocs_go/log4j"
 	"github.com/veo/vscan/pocs_go/phpunit"
 	"github.com/veo/vscan/pocs_go/seeyon"
 	"github.com/veo/vscan/pocs_go/shiro"
+	"github.com/veo/vscan/pocs_go/spark"
 	"github.com/veo/vscan/pocs_go/sunlogin"
 	"github.com/veo/vscan/pocs_go/tomcat"
 	"github.com/veo/vscan/pocs_go/weblogic"
 	"github.com/veo/vscan/pocs_go/zabbix"
-	"net/url"
+	"github.com/veo/vscan/pocs_go/zentao"
 )
 
 func POCcheck(wappalyzertechnologies []string, URL string, finalURL string, checklog4j bool) []string {
@@ -202,6 +206,18 @@ func POCcheck(wappalyzertechnologies []string, URL string, finalURL string, chec
 			}
 			if f5.CVE_2022_1388(URL) {
 				technologies = append(technologies, "GoPOC_f5-Big-IP|CVE_2022_1388")
+			}
+		case "禅道":
+			if zentao.CNVD_2022_42853(URL) {
+				technologies = append(technologies, "GoPOC_禅道|CNVD_2022_42853")
+			}
+		case "spark-jobs":
+			if spark.CVE_2022_33891(URL) {
+				technologies = append(technologies, "GoPOC_spark|CVE_2022_33891")
+			}
+		case "蓝凌 OA":
+			if landray.Landray_RCE(URL) {
+				technologies = append(technologies, "GoPOC_Landray|Landray_RCE")
 			}
 		}
 		if checklog4j {
