@@ -12,11 +12,14 @@ import (
 	"github.com/veo/vscan/pocs_go/jboss"
 	"github.com/veo/vscan/pocs_go/jenkins"
 	"github.com/veo/vscan/pocs_go/log4j"
+	"github.com/veo/vscan/pocs_go/mcms"
 	"github.com/veo/vscan/pocs_go/phpunit"
 	"github.com/veo/vscan/pocs_go/seeyon"
 	"github.com/veo/vscan/pocs_go/shiro"
 	"github.com/veo/vscan/pocs_go/sunlogin"
 	"github.com/veo/vscan/pocs_go/tomcat"
+	"github.com/veo/vscan/pocs_go/tongda"
+	"github.com/veo/vscan/pocs_go/vmwareCenter"
 	"github.com/veo/vscan/pocs_go/weblogic"
 	"github.com/veo/vscan/pocs_go/zabbix"
 	"net/url"
@@ -29,6 +32,7 @@ func POCcheck(wappalyzertechnologies []string, URL string, finalURL string, chec
 		HOST = host.Host
 	}
 	for tech := range wappalyzertechnologies {
+		//fmt.Println(wappalyzertechnologies[tech])
 		switch wappalyzertechnologies[tech] {
 		case "Shiro":
 			key := shiro.CVE_2016_4437(finalURL)
@@ -193,6 +197,10 @@ func POCcheck(wappalyzertechnologies []string, URL string, finalURL string, chec
 			if confluence.CVE_2022_26134(URL) {
 				technologies = append(technologies, "GoPOC_confluence|CVE_2022_26134")
 			}
+			//增加 CVE_2022_26138 penson
+			if confluence.CVE_2022_26138(URL){
+				technologies = append(technologies, "GoPOC_confluence|CVE_2022_26134")
+			}
 		case "f5 Big IP":
 			if f5.CVE_2020_5902(URL) {
 				technologies = append(technologies, "GoPOC_f5-Big-IP|CVE_2020_5902")
@@ -203,7 +211,28 @@ func POCcheck(wappalyzertechnologies []string, URL string, finalURL string, chec
 			if f5.CVE_2022_1388(URL) {
 				technologies = append(technologies, "GoPOC_f5-Big-IP|CVE_2022_1388")
 			}
+		case "vmware-vcenter":
+			if vmwareCenter.VersionCheck(URL){
+				technologies = append(technologies, "GoPOC_vmware-center|version_check")
+			}
+		case "tongda-oa":
+			if tongda.Get_user_session(URL){
+				technologies = append(technologies, "GoPOC_tongdaOA|get_user_session")
+			}
+			if tongda.File_delete(URL){
+				technologies = append(technologies, "GoPOC_tongdaOA|file_delete")
+			}
+			if tongda.File_upload(URL){
+				technologies = append(technologies, "GoPOC_tongdaOA|file_upload")
+			}
+		case "mcms":
+			if mcms.Front_Sql_inject(URL){
+				technologies = append(technologies, "GoPOC_mcms|sqlinject")
+			}
+
+
 		}
+
 		if checklog4j {
 			if log4j.Check(URL, finalURL) {
 				technologies = append(technologies, "GoPOC_log4j|JNDI RCE")
