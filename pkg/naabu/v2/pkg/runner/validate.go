@@ -27,7 +27,9 @@ func (options *Options) validateOptions() error {
 	// Check if Host, list of domains, or stdin info was provided.
 	// If none was provided, then return.
 	if options.Host == nil && options.HostsFile == "" && !options.Stdin && len(flag.Args()) == 0 {
-		return errNoInputList
+			return errNoInputList
+
+
 	}
 
 	// Both verbose and silent flags were used

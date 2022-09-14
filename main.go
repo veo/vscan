@@ -12,6 +12,7 @@ func main() {
 		options.NoColor = true
 	}
 	runner, err := naabuRunner.NewRunner(options)
+
 	if err != nil {
 		gologger.Fatal().Msgf("Could not create runner: %s\n", err)
 	}
