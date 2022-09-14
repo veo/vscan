@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/projectdiscovery/gologger"
 	naabuRunner "github.com/veo/vscan/pkg/naabu/v2/pkg/runner"
-	"github.com/veo/vscan/tools"
 	"runtime"
 )
 
@@ -14,10 +13,6 @@ func main() {
 	}
 	runner, err := naabuRunner.NewRunner(options)
 
-	if options.ListenPort!="-1"{
-		//开启被动模式
-		tools.Start(options.ListenIp,options.ListenPort)
-	}
 	if err != nil {
 		gologger.Fatal().Msgf("Could not create runner: %s\n", err)
 	}
