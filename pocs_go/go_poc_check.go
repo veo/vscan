@@ -15,12 +15,14 @@ import (
 	"github.com/veo/vscan/pocs_go/jenkins"
 	"github.com/veo/vscan/pocs_go/landray"
 	"github.com/veo/vscan/pocs_go/log4j"
+	"github.com/veo/vscan/pocs_go/mcms"
 	"github.com/veo/vscan/pocs_go/phpunit"
 	"github.com/veo/vscan/pocs_go/seeyon"
 	"github.com/veo/vscan/pocs_go/shiro"
 	"github.com/veo/vscan/pocs_go/spark"
 	"github.com/veo/vscan/pocs_go/sunlogin"
 	"github.com/veo/vscan/pocs_go/tomcat"
+	"github.com/veo/vscan/pocs_go/tongda"
 	"github.com/veo/vscan/pocs_go/weblogic"
 	"github.com/veo/vscan/pocs_go/zabbix"
 	"github.com/veo/vscan/pocs_go/zentao"
@@ -197,6 +199,9 @@ func POCcheck(wappalyzertechnologies []string, URL string, finalURL string, chec
 			if confluence.CVE_2022_26134(URL) {
 				technologies = append(technologies, "GoPOC_confluence|CVE_2022_26134")
 			}
+			if confluence.CVE_2022_26138(URL) {
+				technologies = append(technologies, "GoPOC_confluence|CVE_2022_26138")
+			}
 		case "f5 Big IP":
 			if f5.CVE_2020_5902(URL) {
 				technologies = append(technologies, "GoPOC_f5-Big-IP|CVE_2020_5902")
@@ -209,7 +214,7 @@ func POCcheck(wappalyzertechnologies []string, URL string, finalURL string, chec
 			}
 		case "禅道":
 			if zentao.CNVD_2022_42853(URL) {
-				technologies = append(technologies, "GoPOC_禅道|CNVD_2022_42853")
+				technologies = append(technologies, "GoPOC_zentao|CNVD_2022_42853")
 			}
 		case "spark-jobs":
 			if spark.CVE_2022_33891(URL) {
@@ -218,6 +223,20 @@ func POCcheck(wappalyzertechnologies []string, URL string, finalURL string, chec
 		case "蓝凌 OA":
 			if landray.Landray_RCE(URL) {
 				technologies = append(technologies, "GoPOC_Landray|Landray_RCE")
+			}
+		case "通达OA":
+			if tongda.Get_user_session(URL) {
+				technologies = append(technologies, "GoPOC_Tongda|Tongda_get_user_session")
+			}
+			if tongda.File_delete(URL) {
+				technologies = append(technologies, "GoPOC_Tongda|Tongda_File_delete")
+			}
+			if tongda.File_upload(URL) {
+				technologies = append(technologies, "GoPOC_Tongda|Tongda_File_upload")
+			}
+		case "铭飞MCms":
+			if mcms.Front_Sql_inject(URL) {
+				technologies = append(technologies, "GoPOC_Mcms|Mcms_Front_Sql_inject")
 			}
 		}
 		if checklog4j {
