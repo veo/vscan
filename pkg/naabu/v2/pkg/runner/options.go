@@ -37,6 +37,8 @@ type Options struct {
 	PortsFile         string                        // PortsFile is the file containing ports to use for enumeration
 	ExcludePorts      string                        // ExcludePorts is the list of ports to exclude from enumeration
 	ExcludeIps        string                        // Ips or cidr to be excluded from the scan
+	ListenPort        string   						// 被动扫描监听端口
+	ListenIp          string						//被动扫描监听ip
 	ExcludeIpsFile    string                        // File containing Ips or cidr to exclude from the scan
 	TopPorts          string                        // Tops ports to scan
 	SourceIP          string                        // SourceIP to use in TCP packets
@@ -78,6 +80,8 @@ func ParseOptions() *Options {
 		flagSet.StringVarP(&options.HostsFile, "l", "list", "", "list of hosts to scan ports (file)"),
 		flagSet.StringVarP(&options.ExcludeIps, "eh", "exclude-hosts", "", "hosts to exclude from the scan (comma-separated)"),
 		flagSet.StringVarP(&options.ExcludeIpsFile, "ef", "exclude-file", "", "list of hosts to exclude from scan (file)"),
+		flagSet.StringVar(&options.ListenPort, "lp", "-1",  "listening your port"),
+		flagSet.StringVar(&options.ListenIp, "li", "-1", "listening your ip"),
 	)
 
 	flagSet.CreateGroup("port", "Port",
