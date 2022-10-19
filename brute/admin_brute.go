@@ -31,6 +31,9 @@ func getinput(inputurl string) (usernamekey string, passwordkey string, loginurl
 		hreflist := regexp.MustCompile(`location.href=['"](.*?)['"]`).FindStringSubmatch(req.Body)
 		if hreflist != nil {
 			href, _ := url.Parse(hreflist[len(hreflist)-1:][0])
+			if href == nil {
+				return "", "", "", false
+			}
 			hrefurl := u.ResolveReference(href)
 			req, err = pkg.HttpRequset(hrefurl.String(), "GET", "", true, nil)
 			if err != nil {
