@@ -1224,9 +1224,7 @@ retry:
 			technologies = append(technologies, match)
 		}
 		matchlocals := fingerprint.FingerScan(resp.Headers, resp.Data, title, ul)
-		for _, matchlocal := range matchlocals {
-			technologies = append(technologies, matchlocal)
-		}
+		technologies = append(technologies, matchlocals...)
 		SliceRemoveDuplicates := func(slice []string) []string {
 			sort.Strings(slice)
 			i := 0
